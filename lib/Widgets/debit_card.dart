@@ -67,132 +67,145 @@ class _DebitCardState extends State<DebitCard> {
                   r'.{1,4}',
                 ).allMatches(cardNumber).map((m) => m.group(0)!).toList();
 
-                return _frozen
-                    ? Image.asset('assets/images/Design_Layer.png')
-                    : Stack(
-                        children: [
-                          // header - logos
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 19,
-                              vertical: 14,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Image.asset('assets/images/yolo_logo.png'),
-                                Image.asset('assets/images/yes_bank.png'),
-                              ],
-                            ),
-                          ),
-
-                          // card number
-                          Positioned(
-                            top: 76,
-                            left: 23,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                for (var chunk in cardChunks)
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 4),
-                                    child: Text(
-                                      chunk,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontFamily: 'Poppins',
-                                        letterSpacing: 1.5,
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
-
-                          // expiry
-                          Positioned(
-                            left: 94,
-                            top: 75,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  'expiry',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 10,
-                                  ),
-                                ),
-                                Text(
-                                  card['expiry'] ?? '00/00',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                const SizedBox(height: 25),
-                                const Text(
-                                  'cvv',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 10,
-                                  ),
-                                ),
-                                Row(
-                                  children: const [
-                                    Text(
-                                      '***',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 30,
-                                      ),
-                                    ),
-                                    SizedBox(width: 4),
-                                    Icon(
-                                      Icons.visibility_off,
-                                      color: Colors.red,
-                                      size: 16,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          // copy
-                          const Positioned(
-                            left: 14,
-                            top: 206,
-                            child: Row(
-                              children: [
-                                Icon(Icons.copy, color: Colors.red, size: 18),
-                                SizedBox(width: 6),
-                                Text(
-                                  'copy details',
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          // rupay
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 15,
-                                right: 10,
+                return AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) {
+                        return FadeTransition(opacity: animation, child: child);
+                      },
+                  child: _frozen
+                      ? Image.asset(
+                          'assets/images/Design_Layer.png',
+                          key: ValueKey('frozen'),
+                        )
+                      : Stack(
+                          key: ValueKey('unfrozen'),
+                          children: [
+                            // header - logos
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 19,
+                                vertical: 14,
                               ),
-                              child: Image.asset('assets/images/rupay.png'),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Image.asset('assets/images/yolo_logo.png'),
+                                  Image.asset('assets/images/yes_bank.png'),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      );
+
+                            // card number
+                            Positioned(
+                              top: 76,
+                              left: 23,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  for (var chunk in cardChunks)
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 4),
+                                      child: Text(
+                                        chunk,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontFamily: 'Poppins',
+                                          letterSpacing: 1.5,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+
+                            // expiry
+                            Positioned(
+                              left: 94,
+                              top: 75,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    'expiry',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                  Text(
+                                    card['expiry'] ?? '00/00',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 25),
+                                  const Text(
+                                    'cvv',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                  Row(
+                                    children: const [
+                                      Text(
+                                        '***',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 30,
+                                        ),
+                                      ),
+                                      SizedBox(width: 4),
+                                      Icon(
+                                        Icons.visibility_off,
+                                        color: Colors.red,
+                                        size: 16,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            // copy
+                            const Positioned(
+                              left: 14,
+                              top: 206,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.copy, color: Colors.red, size: 18),
+                                  SizedBox(width: 6),
+                                  Text(
+                                    'copy details',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            // rupay
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  bottom: 15,
+                                  right: 10,
+                                ),
+                                child: Image.asset('assets/images/rupay.png'),
+                              ),
+                            ),
+                          ],
+                        ),
+                );
               }
             },
           ),
